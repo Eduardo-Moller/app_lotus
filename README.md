@@ -20,12 +20,12 @@ Fotos do app...
 ## Documentação de cores
 
 | Cor               | Hexadecimal                                                |
-| ----------------- | -------------------------------------------------------------------------------- |
+| ----------------- | -----------------------------------------------------------|
 |  Branco fumaça       | ![#f2f1f1](https://via.placeholder.com/10/f2f1f1?text=+) #f2f1f1 |
+| Cinza médio       | ![#9b9b9b](https://via.placeholder.com/10/9b9b9b?text=+) #9b9b9b |
 | Vermelho       | ![#b0252e](https://via.placeholder.com/10/b0252e?text=+) #b0252e |
 | Vermelho claro       | ![#d85050](https://via.placeholder.com/10/d85050?text=+) #d85050 |
 | Azul magenta escuro       | ![#353440](https://via.placeholder.com/10/353440?text=+) #353440 |
-| Cinza médio       | ![#9b9b9b](https://via.placeholder.com/10/9b9b9b?text=+) #9b9b9b |
 | Marrom       | ![#795548](https://via.placeholder.com/10/795548?text=+) #795548 |
 
 ## 🌟 Autores
