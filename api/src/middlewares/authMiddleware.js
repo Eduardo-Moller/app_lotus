@@ -1,17 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-async function verifyJwt(token) {
-    if (!token) return { error: true, message: 'No token provided' };
-    let result = { auth: false, message: 'Failed to authenticate token' };
+async function verifyJwt(req, res, next) {
+    const token = req.headers.authorization;
     jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
         if (err) {
-            result = { auth: false, message: 'Invalid token' };
+            res.status(401).json({ error: true, message: 'Unauthorized' });
         }
         if (decoded) {
-            result = { auth: true, id: decoded.id };
+            next();
         }
     });
-    return result;
 }
 
 module.exports = { verifyJwt };

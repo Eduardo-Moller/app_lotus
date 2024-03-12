@@ -1,4 +1,5 @@
-const query = require('../db/connect');
+const { query } = require('../db/connect');
+const { isEmpty } = require('./helpers');
 
 /**
  * Função que insere ou atualiza registros em uma tabela do banco de dados.
@@ -54,7 +55,7 @@ async function selectTable(table, filters) {
     const where = fields.map((field) => `${field} = ?`).join(' AND ');
     const sql = `SELECT * FROM ${table} WHERE ${where} LIMIT 1`;
 
-    return await query(sql, values);
+    return (await query(sql, values))[0];
 }
 
 /**
@@ -65,6 +66,7 @@ async function selectTable(table, filters) {
  * @returns {Promise} Uma promessa que será resolvida com o resultado da consulta.
  */
 async function selectAllTable(table, filters) {
+    if (isEmpty(filters)) return await query(`SELECT * FROM ${table}`);
     const fields = Object.keys(filters);
     const values = Object.values(filters);
 

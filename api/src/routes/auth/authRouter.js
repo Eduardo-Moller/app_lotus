@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
     if (req.body) {
         const result = await authController.register(req.body);
         if (result?.auth) {
-            res.status(200).json(result);
+            res.status(201).json(result);
         } else {
             res.status(400).json({ error: true, message: 'Registration failed' });
         }
