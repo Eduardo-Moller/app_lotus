@@ -2,11 +2,14 @@
     "name": "api_lotus_connect",
     "version": "1.0.0",
     "description": "API para o APP Lotus Connect",
-    "main": "index.js",
+    "main": "src/server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "production": "node src/server.js",
-        "start": "nodemon src/server.js"
+        "start": "node src/server.js"
+    },
+    "engines": {
+        "node": "20"
     },
     "author": {
         "name": "Eduardo Moller",
