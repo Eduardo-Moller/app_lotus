@@ -13,107 +13,107 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Department {
+model departments {
   id         Int      @id @default(autoincrement())
   name       String
-  users      User[]
-  permissionsFrom DepartmentPermission[] @relation("FromDepartment")
-  permissionsTo DepartmentPermission[] @relation("ToDepartment")
-  requests   Request[]
+  users      users[]
+  permissionsFrom department_permissions[] @relation("FromDepartment")
+  permissionsTo department_permissions[] @relation("ToDepartment")
+  requests   requests[]
   updated    DateTime @default(now())
   created    DateTime @default(now())
   deleted    Boolean  @default(false)
 }
 
-model Enterprise {
+model enterprises {
   id         Int      @id @default(autoincrement())
   name       String
-  requests   Request[]
+  requests   requests[]
   updated    DateTime @default(now())
   created    DateTime @default(now())
   deleted    Boolean  @default(false)
 }
 
-model Material {
+model materials {
   id         Int      @id @default(autoincrement())
   name       String
-  requestMaterials RequestMaterial[]
+  requestMaterials requests_materials[]
   updated    DateTime @default(now())
   created    DateTime @default(now())
   deleted    Boolean  @default(false)
 }
 
-model Status {
+model status {
   id         Int      @id @default(autoincrement())
   name       String
-  requests   Request[]
-  requestMaterials RequestMaterial[]
-  statusHistories StatusHistory[]
+  requests   requests[]
+  requestMaterials requests_materials[]
+  statusHistories status_history[]
   updated    DateTime @default(now())
   created    DateTime @default(now())
   deleted    Boolean  @default(false)
 }
 
-model UrgencyLevel {
+model urgency_level {
   id         Int      @id @default(autoincrement())
   name       String
-  requestMaterials RequestMaterial[]
+  requestMaterials requests_materials[]
   updated    DateTime @default(now())
   created    DateTime @default(now())
   deleted    Boolean  @default(false)
 }
 
-model User {
+model users {
   id             Int       @id @default(autoincrement())
   name           String
   login          String
   password       String
-  department     Department @relation(fields: [departments_id], references: [id])
-  departments_id Int
-  requests       Request[]
+  departments    departments? @relation(fields: [departments_id], references: [id])
+  departments_id Int?
+  requests       requests[]
   updated        DateTime  @default(now())
   created        DateTime  @default(now())
   deleted        Boolean   @default(false)
 }
 
-model DepartmentPermission {
+model department_permissions {
   id                 Int         @id @default(autoincrement())
-  from_department    Department  @relation("FromDepartment", fields: [from_department_id], references: [id])
+  from_department    departments  @relation("FromDepartment", fields: [from_department_id], references: [id])
   from_department_id Int
-  to_department      Department  @relation("ToDepartment", fields: [to_department_id], references: [id])
+  to_department      departments  @relation("ToDepartment", fields: [to_department_id], references: [id])
   to_department_id   Int
   updated            DateTime    @default(now())
   created            DateTime    @default(now())
   deleted            Boolean     @default(false)
 }
 
-model Request {
+model requests {
   id             Int       @id @default(autoincrement())
-  user           User      @relation(fields: [user_id], references: [id])
+  users           users      @relation(fields: [user_id], references: [id])
   user_id        Int
-  department     Department @relation(fields: [department_id], references: [id])
+  departments     departments @relation(fields: [department_id], references: [id])
   department_id  Int
-  enterprise     Enterprise @relation(fields: [enterprise_id], references: [id])
+  enterprises     enterprises @relation(fields: [enterprise_id], references: [id])
   enterprise_id  Int
-  status         Status    @relation(fields: [status_id], references: [id])
+  status         status    @relation(fields: [status_id], references: [id])
   status_id      Int
   description    String
-  requestMaterials RequestMaterial[]
-  statusHistory  StatusHistory[]
+  requestMaterials requests_materials[]
+  status_history  status_history[]
   updated        DateTime  @default(now())
   created        DateTime  @default(now())
   deleted        Boolean   @default(false)
 }
 
-model RequestMaterial {
+model requests_materials {
   id                Int       @id @default(autoincrement())
-  request           Request   @relation(fields: [request_id], references: [id])
+  requests           requests   @relation(fields: [request_id], references: [id])
   request_id        Int
-  material          Material  @relation(fields: [material_id], references: [id])
+  materials          materials  @relation(fields: [material_id], references: [id])
   material_id       Int
-  urgency_level     UrgencyLevel @relation(fields: [urgency_level_id], references: [id])
+  urgency_level     urgency_level @relation(fields: [urgency_level_id], references: [id])
   urgency_level_id  Int
-  status            Status    @relation(fields: [status_id], references: [id])
+  status            status    @relation(fields: [status_id], references: [id])
   status_id         Int
   quantity          Int
   arrival_date      DateTime?
@@ -122,11 +122,11 @@ model RequestMaterial {
   deleted           Boolean   @default(false)
 }
 
-model StatusHistory {
+model status_history {
   id             Int       @id @default(autoincrement())
-  request        Request   @relation(fields: [request_id], references: [id])
+  requests        requests   @relation(fields: [request_id], references: [id])
   request_id     Int
-  status         Status    @relation(fields: [status_id], references: [id])
+  status         status    @relation(fields: [status_id], references: [id])
   status_id      Int
   updated        DateTime  @default(now())
 }

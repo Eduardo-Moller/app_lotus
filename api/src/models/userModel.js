@@ -9,14 +9,13 @@ async function getUserById(userId) {
             users.departments_id,
             departments.name AS department
         FROM
-            users
-        INNER JOIN
-            departments ON departments.id = users.departments_id
+            public.users
+        LEFT JOIN
+            public.departments ON departments.id = users.departments_id
         WHERE
-            users.id = ?`;
+            users.id = ${userId}`;
 
-    const getUserParams = [userId];
-    const userResult = await query(getUserQuery, getUserParams);
+    const userResult = await query(getUserQuery);
 
     if (isEmpty(userResult)) return {};
 
@@ -27,13 +26,12 @@ async function getUserById(userId) {
             department_permissions.from_department_id,
             department_permissions.to_department_id
         FROM
-            department_permissions
+            public.department_permissions
         WHERE
-            department_permissions.from_department_id = ? AND
-            department_permissions.deleted = 0`;
+            department_permissions.from_department_id = ${user.departments_id} AND
+            department_permissions.deleted = false`;
 
-    const getDepartmentPermissionsParams = [user.departments_id];
-    user.department_permissions = await query(getDepartmentPermissionsQuery, getDepartmentPermissionsParams);
+    user.department_permissions = await query(getDepartmentPermissionsQuery);
 
     return user;
 }

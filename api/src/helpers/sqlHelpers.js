@@ -11,15 +11,17 @@ const { isEmpty } = require('./helpers');
  * @returns {Promise} Uma promessa que será resolvida com o resultado da operação de inserção ou atualização.
  */
 async function insertUpdateTable(table, data) {
+    if (table) table = 'public.' + table;
     const fields = Object.keys(data);
     const values = Object.values(data);
 
     let sql;
+
     if (fields.includes('id')) {
         const idIndex = fields.indexOf('id');
         const id = values[idIndex];
 
-        const checkField = selectTable(table, { id });
+        const checkField = await selectTable(table, { id });
         if (!checkField) return {};
         if (checkField && checkField.updated) {
             fields.push('updated');
@@ -28,12 +30,12 @@ async function insertUpdateTable(table, data) {
         fields.splice(idIndex, 1);
         values.splice(idIndex, 1);
 
-        const updates = fields.map((field) => `${field} = ?`).join(', ');
-        sql = `UPDATE ${table} SET ${updates} WHERE id = ?`;
+        const updates = fields.map((field, index) => `${field} = $${index + 1}`).join(', ');
+        sql = `UPDATE ${table} SET ${updates} WHERE id = $${fields.length + 1} RETURNING *`;
         values.push(id);
     } else {
-        const placeholders = values.map(() => '?').join(', ');
-        sql = `INSERT INTO ${table} (${fields.join(', ')}) VALUES (${placeholders})`;
+        const placeholders = values.map((value, index) => `$${index + 1}`).join(', ');
+        sql = `INSERT INTO ${table} (${fields.join(', ')}) VALUES (${placeholders}) RETURNING *`;
     }
 
     return await query(sql, values);
@@ -47,12 +49,13 @@ async function insertUpdateTable(table, data) {
  * @returns {Promise} Uma promessa que será resolvida com o resultado da consulta.
  */
 async function selectTable(table, filters) {
+    if (table) table = 'public.' + table;
     const fields = Object.keys(filters);
     const values = Object.values(filters);
 
     if (!table || !fields.length || !values.length) return {};
 
-    const where = fields.map((field) => `${field} = ?`).join(' AND ');
+    const where = fields.map((field, index) => `${field} = $${index + 1}`).join(' AND ');
     const sql = `SELECT * FROM ${table} WHERE ${where} LIMIT 1`;
 
     return (await query(sql, values))[0];
@@ -67,6 +70,7 @@ async function selectTable(table, filters) {
  */
 async function selectAllTable(table, filters) {
     if (!table) return [];
+    if (table) table = 'public.' + table;
     if (isEmpty(filters)) return await query(`SELECT * FROM ${table}`);
     const fields = Object.keys(filters);
     const values = Object.values(filters);
@@ -76,7 +80,7 @@ async function selectAllTable(table, filters) {
     if (table && (fields.length == 0 || values.length == 0)) {
         sql = `SELECT * FROM ${table}`;
     } else {
-        const where = fields.map((field) => `${field} = ?`).join(' AND ');
+        const where = fields.map((field, index) => `${field} = $${index + 1}`).join(' AND ');
         sql = `SELECT * FROM ${table} WHERE ${where}`;
     }
 

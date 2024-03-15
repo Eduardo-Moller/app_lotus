@@ -1,11 +1,11 @@
 const sqlHelpers = require('../helpers/sqlHelpers');
 
 async function getRequests() {
-    return await sqlHelpers.selectAllTable('requests', { deleted: 0 });
+    return await sqlHelpers.selectAllTable('requests', { deleted: false });
 }
 
 async function getRequest(id) {
-    return await sqlHelpers.selectTable('requests', { id, deleted: 0 });
+    return await sqlHelpers.selectTable('requests', { id, deleted: false });
 }
 
 async function createRequest(request) {
@@ -13,7 +13,7 @@ async function createRequest(request) {
 }
 
 async function deleteRequest(id) {
-    return await sqlHelpers.insertUpdateTable('requests', { id, deleted: 1 });
+    return await sqlHelpers.insertUpdateTable('requests', { id, deleted: true });
 }
 
 module.exports = { getRequests, getRequest, createRequest, deleteRequest };

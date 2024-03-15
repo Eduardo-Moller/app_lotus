@@ -1,3 +1,4 @@
+require('dotenv').config();
 const sqlHelpers = require('../helpers/sqlHelpers');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -6,7 +7,8 @@ const { getUserById } = require('./userModel');
 
 async function login(userData) {
     const { login, password } = userData;
-    const retrievedUser = await sqlHelpers.selectTable('users', { login, deleted: 0 });
+    const retrievedUser = await sqlHelpers.selectTable('users', { login, deleted: false });
+    if (isEmpty(retrievedUser)) return { auth: false };
     const isValidPassword = bcrypt.compareSync(password, retrievedUser.password);
     if (!isEmpty(retrievedUser) && isValidPassword) {
         const token = jwt.sign({ id: retrievedUser.id }, process.env.JWT_SECRET, { expiresIn: 3600 });
