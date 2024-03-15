@@ -66,15 +66,14 @@ async function selectTable(table, filters) {
  * @returns {Promise} Uma promessa que será resolvida com o resultado da consulta.
  */
 async function selectAllTable(table, filters) {
+    if (!table) return [];
     if (isEmpty(filters)) return await query(`SELECT * FROM ${table}`);
     const fields = Object.keys(filters);
     const values = Object.values(filters);
 
     let sql;
 
-    if (!table && fields.length && values.length) {
-        return {};
-    } else if (table || !fields.length || !values.length) {
+    if (table && (fields.length == 0 || values.length == 0)) {
         sql = `SELECT * FROM ${table}`;
     } else {
         const where = fields.map((field) => `${field} = ?`).join(' AND ');

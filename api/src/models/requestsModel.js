@@ -1,7 +1,7 @@
 const sqlHelpers = require('../helpers/sqlHelpers');
 
 async function getRequests() {
-    return await sqlHelpers.selectAllTable('requests');
+    return await sqlHelpers.selectAllTable('requests', { deleted: 0 });
 }
 
 async function getRequest(id) {
