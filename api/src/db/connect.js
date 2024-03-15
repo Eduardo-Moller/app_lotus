@@ -1,24 +1,20 @@
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 
-async function connection() {
-    const connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-    });
-    connection.connect((err) => {
-        if (err) {
-            return console.log('Error connecting to DB: ', err);
-        }
-    });
-    return connection;
-}
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
 
 async function query(sql, params) {
-    const conn = await connection();
-    const [rows] = await conn.query(sql, params);
-    return rows;
+    const client = await pool.connect();
+    try {
+        const result = await client.query(sql, params);
+        return result.rows;
+    } finally {
+        client.release();
+    }
 }
 
 module.exports = { query };

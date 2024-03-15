@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id         Int      @id @default(autoincrement())
+  name       String
+  users      User[]
+  permissionsFrom DepartmentPermission[] @relation("FromDepartment")
+  permissionsTo DepartmentPermission[] @relation("ToDepartment")
+  requests   Request[]
+  updated    DateTime @default(now())
+  created    DateTime @default(now())
+  deleted    Boolean  @default(false)
+}
+
+model Enterprise {
+  id         Int      @id @default(autoincrement())
+  name       String
+  requests   Request[]
+  updated    DateTime @default(now())
+  created    DateTime @default(now())
+  deleted    Boolean  @default(false)
+}
+
+model Material {
+  id         Int      @id @default(autoincrement())
+  name       String
+  requestMaterials RequestMaterial[]
+  updated    DateTime @default(now())
+  created    DateTime @default(now())
+  deleted    Boolean  @default(false)
+}
+
+model Status {
+  id         Int      @id @default(autoincrement())
+  name       String
+  requests   Request[]
+  requestMaterials RequestMaterial[]
+  statusHistories StatusHistory[]
+  updated    DateTime @default(now())
+  created    DateTime @default(now())
+  deleted    Boolean  @default(false)
+}
+
+model UrgencyLevel {
+  id         Int      @id @default(autoincrement())
+  name       String
+  requestMaterials RequestMaterial[]
+  updated    DateTime @default(now())
+  created    DateTime @default(now())
+  deleted    Boolean  @default(false)
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  login          String
+  password       String
+  department     Department @relation(fields: [departments_id], references: [id])
+  departments_id Int
+  requests       Request[]
+  updated        DateTime  @default(now())
+  created        DateTime  @default(now())
+  deleted        Boolean   @default(false)
+}
+
+model DepartmentPermission {
+  id                 Int         @id @default(autoincrement())
+  from_department    Department  @relation("FromDepartment", fields: [from_department_id], references: [id])
+  from_department_id Int
+  to_department      Department  @relation("ToDepartment", fields: [to_department_id], references: [id])
+  to_department_id   Int
+  updated            DateTime    @default(now())
+  created            DateTime    @default(now())
+  deleted            Boolean     @default(false)
+}
+
+model Request {
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [user_id], references: [id])
+  user_id        Int
+  department     Department @relation(fields: [department_id], references: [id])
+  department_id  Int
+  enterprise     Enterprise @relation(fields: [enterprise_id], references: [id])
+  enterprise_id  Int
+  status         Status    @relation(fields: [status_id], references: [id])
+  status_id      Int
+  description    String
+  requestMaterials RequestMaterial[]
+  statusHistory  StatusHistory[]
+  updated        DateTime  @default(now())
+  created        DateTime  @default(now())
+  deleted        Boolean   @default(false)
+}
+
+model RequestMaterial {
+  id                Int       @id @default(autoincrement())
+  request           Request   @relation(fields: [request_id], references: [id])
+  request_id        Int
+  material          Material  @relation(fields: [material_id], references: [id])
+  material_id       Int
+  urgency_level     UrgencyLevel @relation(fields: [urgency_level_id], references: [id])
+  urgency_level_id  Int
+  status            Status    @relation(fields: [status_id], references: [id])
+  status_id         Int
+  quantity          Int
+  arrival_date      DateTime?
+  updated           DateTime  @default(now())
+  created           DateTime  @default(now())
+  deleted           Boolean   @default(false)
+}
+
+model StatusHistory {
+  id             Int       @id @default(autoincrement())
+  request        Request   @relation(fields: [request_id], references: [id])
+  request_id     Int
+  status         Status    @relation(fields: [status_id], references: [id])
+  status_id      Int
+  updated        DateTime  @default(now())
+}
+
+
