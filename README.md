@@ -12,7 +12,7 @@ Lotus Connect é uma solução móvel desenvolvida especificamente para atender 
 **Back-end:** Node, Express
 
 **Database:** Mysql
-
+    
 ## 📷 Demonstração
 
 Fotos do app...
