@@ -28,8 +28,5 @@ Fotos do app...
 | Azul magenta escuro       | ![#353440](https://via.placeholder.com/10/353440?text=+) #353440 |
 | Marrom       | ![#795548](https://via.placeholder.com/10/795548?text=+) #795548 |
 
-## 🌟 Autores
-
-- [Eduardo Moller](https://github.com/Eduardo-Moller)
 
 
