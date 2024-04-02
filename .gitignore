@@ -2,3 +2,4 @@ api/node_modules
 api/.prettierrc
 api/.eslintrc
 api/.env
+.idea

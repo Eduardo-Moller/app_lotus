@@ -1,0 +1,56 @@
+ion-content {
+  --background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+
+  ion-text {
+    color: #333;
+
+    img {
+      height: 100px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #b23b3b;
+      margin: 20px 0;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    ion-button {
+      --padding-start: 15px;
+      --padding-end: 15px;
+      --padding-top: 10px;
+      --padding-bottom: 10px;
+      --border-radius: 50px;
+      background-color: #d9534f;
+      color: #fff;
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: none; // If you want to prevent uppercase transformation
+
+      ion-icon {
+        margin-start: 8px;
+      }
+    }
+
+    ion-button[fill="clear"] {
+      --background: transparent;
+      --background-activated: transparent;
+      --background-focused: transparent;
+      --background-hover: rgba(217, 83, 79, 0.1);
+      --ripple-color: transparent;
+    }
+  }
+}
