@@ -1,0 +1,25 @@
+<app-header />
+<ion-content>
+  <div class="container">
+    <div class="welcome-item">
+      <h1>Bem vindo, Jorge!</h1>
+      <p>FUNCIONARIO</p>
+    </div>
+    <div class="buttons-item">
+      <h1>Solicitações</h1>
+      <div class="buttons">
+        <div class="button" (click)="navigateTo('/accompany')">
+          <img src="../../assets/file_doc_search.png" alt="Acomapnhar" />
+          <h1>Acomapnhar</h1>
+        </div>
+        <div class="button" (click)="navigateTo('/request-register')">
+          <img src="../../assets/file_doc_add.png" alt="Cadastrar" />
+          <h1>Cadastrar</h1>
+        </div>
+      </div>
+    </div>
+    <div class="logout-item">
+      <app-button label="Sair" [click]="navigateTo.bind(this, '/login')" />
+    </div>
+  </div>
+</ion-content>
