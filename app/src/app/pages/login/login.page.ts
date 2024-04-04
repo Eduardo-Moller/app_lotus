@@ -23,15 +23,19 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.credentials = this.fb.group({
-      email: ['eve.holt@reqres.in', [Validators.required, Validators.email]],
-      password: ['pistol', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   async login() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.authService.login(this.credentials.value).subscribe({
+    const loginCredentials = {
+      email: this.credentials.value.email,
+      password: this.credentials.value.password,
+    };
+    this.authService.login(loginCredentials).subscribe({
       next: async (res) => {
         await loading.dismiss();
         this.router.navigateByUrl('/home', { replaceUrl: true });

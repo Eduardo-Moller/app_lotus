@@ -1,12 +1,16 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Sign Up</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-header class="logo-header">
+    <img src="../../../assets/logo.jpeg" />
+  </ion-header>
   <div class="signup-container">
+    <div class="title">
+      <h1>Novo Usuário</h1>
+    </div>
     <form [formGroup]="credentials" (ngSubmit)="onSubmit()">
+      <<ion-item>
+        <ion-label position="floating">Nome</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
@@ -19,27 +23,22 @@
           Email is invalid
         </ion-text>
       </div>
-
       <ion-item>
         <ion-label position="floating">Senha</ion-label>
         <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password"></ion-input>
         <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end"
           (click)="showPassword = !showPassword"></ion-icon>
-
       </ion-item>
-
       <ion-item>
         <ion-label position="floating">Confirmar Senha</ion-label>
         <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="confirmPassword"></ion-input>
         <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end"
           (click)="showPassword = !showPassword"></ion-icon>
       </ion-item>
-
-
-
-      <ion-button color="primary" expand="block" type="submit" [disabled]="credentials.invalid">CADASTRAR-SE</ion-button>
+      <ion-button expand="block" type="submit" [disabled]="credentials.invalid">Cadastrar-se</ion-button>
+      <div style='width: 100%'>
+        <ion-button expand="block" fill="clear" (click)="navigateToLogin()">Já possui uma conta? Entrar</ion-button>
+      </div>
     </form>
-
-    <ion-button fill="clear" expand="block" routerLink="/login" routerDirection="back">JÁ POSSUI UMA CONTA? ENTRAR</ion-button>
   </div>
 </ion-content>

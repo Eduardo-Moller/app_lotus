@@ -24,6 +24,7 @@ export class SignupPage implements OnInit {
   ngOnInit() {
     this.credentials = this.fb.group(
       {
+        name: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -37,7 +38,12 @@ export class SignupPage implements OnInit {
   async onSubmit() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.authService.register(this.credentials.value).subscribe({
+    const registerCredentials = {
+      name: this.credentials.value.name,
+      email: this.credentials.value.email,
+      password: this.credentials.value.password,
+    };
+    this.authService.register(registerCredentials).subscribe({
       next: async (res) => {
         await loading.dismiss();
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
@@ -61,6 +67,10 @@ export class SignupPage implements OnInit {
 
   get password() {
     return this.credentials.get('password');
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {

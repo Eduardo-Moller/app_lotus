@@ -1,11 +1,12 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div class="login-container">
+    <div class="logo-header">
+      <img src="../../../assets/logo.jpeg" />
+    </div>
+    <div class="login-card">
+        <h1>Login</h1>
+        <p>Bem-vindo de volta ao aplicativo</p>
+    </div>
     <form [formGroup]="credentials" (ngSubmit)="login()">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
@@ -33,8 +34,10 @@
           Password must be at least 6 characters long
         </ion-text>
       </div>
-      <ion-button expand="block" type="submit" [disabled]="!credentials.valid">Login</ion-button>
+      <ion-button expand="block" type="submit" [disabled]="credentials.invalid">Login</ion-button>
+      <div style='width: 100%'>
+        <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">Ainda não possuo uma conta!</ion-button>
+      </div>
     </form>
-    <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">Ainda não possuo uma conta!</ion-button>
   </div>
 </ion-content>
