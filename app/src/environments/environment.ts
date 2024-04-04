@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: undefined
+  apiUrl: 'https://app-lotus-connect-api.onrender.com',
 };
 
 /*
