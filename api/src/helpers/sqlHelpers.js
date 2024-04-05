@@ -10,8 +10,9 @@ const { isEmpty } = require('./helpers');
  * @param {Object} data Um objeto contendo os campos e valores a serem inseridos ou atualizados na tabela.
  * @returns {Promise} Uma promessa que será resolvida com o resultado da operação de inserção ou atualização.
  */
-async function insertUpdateTable(table, data) {
-    if (table) table = 'public.' + table;
+async function insertUpdateTable(originalTable, data) {
+    var table = false;
+    if (originalTable) table = "public." + originalTable;
     const fields = Object.keys(data);
     const values = Object.values(data);
 
@@ -21,7 +22,7 @@ async function insertUpdateTable(table, data) {
         const idIndex = fields.indexOf('id');
         const id = values[idIndex];
 
-        const checkField = await selectTable(table, { id });
+        const checkField = await selectTable(originalTable, { id });
         if (!checkField) return {};
         if (checkField && checkField.updated) {
             fields.push('updated');
