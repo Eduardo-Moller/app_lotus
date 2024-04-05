@@ -26,7 +26,6 @@ export class ApiService {
 
   private getHttpOptions() {
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
       return {
         headers: new HttpHeaders({

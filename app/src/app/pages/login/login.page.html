@@ -1,18 +1,21 @@
 <ion-content>
   <div class="login-container">
     <div class="logo-header">
-      <img src="../../../assets/logo.jpeg" />
+      <img src="../../../assets/logo.png" />
     </div>
     <div class="login-card">
-        <h1>Login</h1>
-        <p>Bem-vindo de volta ao aplicativo</p>
+      <h1>Login</h1>
+      <p>Bem-vindo de volta ao aplicativo</p>
     </div>
     <form [formGroup]="credentials" (ngSubmit)="login()">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
       </ion-item>
-      <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="errors">
+      <div
+        *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+        class="errors"
+      >
         <ion-text color="danger" *ngIf="email?.hasError('required')">
           Email is required
         </ion-text>
@@ -22,11 +25,20 @@
       </div>
       <ion-item>
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password"></ion-input>
-        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end"
-          (click)="showPassword = !showPassword"></ion-icon>
+        <ion-input
+          type="{{ showPassword ? 'text' : 'password' }}"
+          formControlName="password"
+        ></ion-input>
+        <ion-icon
+          [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+          slot="end"
+          (click)="showPassword = !showPassword"
+        ></ion-icon>
       </ion-item>
-      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="errors">
+      <div
+        *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+        class="errors"
+      >
         <ion-text color="danger" *ngIf="password?.hasError('required')">
           Password is required
         </ion-text>
@@ -34,9 +46,13 @@
           Password must be at least 6 characters long
         </ion-text>
       </div>
-      <ion-button expand="block" type="submit" [disabled]="credentials.invalid">Login</ion-button>
-      <div style='width: 100%'>
-        <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">Ainda não possuo uma conta!</ion-button>
+      <ion-button expand="block" type="submit" [disabled]="credentials.invalid"
+        >Login</ion-button
+      >
+      <div style="width: 100%">
+        <ion-button expand="block" fill="clear" (click)="navigateToSignUp()"
+          >Ainda não possuo uma conta!</ion-button
+        >
       </div>
     </form>
   </div>

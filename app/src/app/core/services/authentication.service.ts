@@ -76,17 +76,22 @@ export class AuthenticationService {
     name: string;
     email: string;
     password: string;
+    departments_id: string;
   }): Observable<any> {
     return this.apiService
       .post(`/auth/register`, {
         name: credentials.name,
         login: credentials.email,
         password: credentials.password,
+        departments_id: credentials.departments_id,
       })
       .pipe(
-        map((data: any) => data.token),
-        switchMap((token) => {
-          return from(Preferences.set({ key: TOKEN_KEY, value: token }));
+        map((data: any) => data),
+        switchMap((data) => {
+          from(
+            Preferences.set({ key: USER_KEY, value: JSON.stringify(data.user) })
+          );
+          return from(Preferences.set({ key: TOKEN_KEY, value: data.token }));
         }),
         tap((_) => {
           this.isAuthenticated.next(true);

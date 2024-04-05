@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { DepartmentsService } from 'src/app/core/services/departments.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -12,10 +14,25 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 export class SignupPage implements OnInit {
   credentials!: FormGroup;
   showPassword = false;
+  departments = [
+    {
+      id: 1,
+      name: 'Departamento 1',
+    },
+    {
+      id: 2,
+      name: 'Departamento 2',
+    },
+    {
+      id: 3,
+      name: 'Departamento 3',
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
+    private departmentsService: DepartmentsService,
     private alertController: AlertController,
     private router: Router,
     private loadingController: LoadingController
@@ -26,6 +43,7 @@ export class SignupPage implements OnInit {
       {
         name: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
+        departments_id: ['', [Validators.required]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
@@ -33,6 +51,16 @@ export class SignupPage implements OnInit {
         validators: this.matchingPasswords('password', 'confirmPassword'),
       }
     );
+    this.getDepartments();
+  }
+
+  async getDepartments() {
+    const dataObservable = await this.departmentsService.getDepartments();
+    from(dataObservable).subscribe((data: any) => {
+      if (data) {
+        this.departments = data;
+      }
+    });
   }
 
   async onSubmit() {
@@ -41,6 +69,7 @@ export class SignupPage implements OnInit {
     const registerCredentials = {
       name: this.credentials.value.name,
       email: this.credentials.value.email,
+      departments_id: this.credentials.value.departments_id,
       password: this.credentials.value.password,
     };
     this.authService.register(registerCredentials).subscribe({

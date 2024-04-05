@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../core/services/authentication.service';
-import { DepartmentsService } from '../../core/services/departments.service';
-import { from } from 'rxjs';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -11,10 +8,10 @@ import { from } from 'rxjs';
 })
 export class HomePage implements OnInit {
   userName: string = '';
+  departmentName: string = 'SEM DEPARTAMENTO';
 
   constructor(
     private authService: AuthenticationService,
-    private departmentsService: DepartmentsService,
     private router: Router
   ) {}
 
@@ -31,10 +28,7 @@ export class HomePage implements OnInit {
     const user = await this.authService.getUser();
     if (!user) this.logout();
     this.userName = user.name;
-    const teste = await this.departmentsService.getDepartments();
-    from(teste).subscribe((data: any) => {
-      console.log(data);
-    });
+    if (user.department) this.departmentName = user.department;
   }
 
   ngOnInit() {
