@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accompany',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./accompany.page.scss'],
 })
 export class AccompanyPage implements OnInit {
-  constructor() {}
+  constructor(private router: Router) {}
+
+  async navigateTo(route: string) {
+    this.router.navigateByUrl(route);
+  }
 
   ngOnInit() {}
 }

@@ -13,27 +13,40 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   post(path: string, body: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}${path}`, body, this.getHttpOptions()).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .post(`${this.baseUrl}${path}`, body, this.getHttpOptions())
+      .pipe(catchError(this.handleError));
   }
 
   get(path: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}${path}`, this.getHttpOptions()).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get(`${this.baseUrl}${path}`, this.getHttpOptions())
+      .pipe(catchError(this.handleError));
   }
 
   private getHttpOptions() {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if (token) {
+      return {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: token,
+        }),
+      };
+    } else {
+      return {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
+    }
   }
 
   private handleError(error: any) {
     console.error('An error occurred:', error.error);
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+    return throwError(
+      () => new Error('Something bad happened; please try again later.')
+    );
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-request-register',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./request-register.page.scss'],
 })
 export class RequestRegisterPage implements OnInit {
+  constructor(private router: Router) {}
 
-  constructor() { }
-
-  ngOnInit() {
+  async navigateTo(route: string) {
+    this.router.navigateByUrl(route);
   }
 
+  ngOnInit() {}
 }

@@ -1,5 +1,5 @@
 ion-content {
-  --background: #FDF5E6;
+  --background: #f2f1f1;
 
   .logo-header {
     display: flex;
@@ -10,7 +10,6 @@ ion-content {
 
   img {
     max-width: 100px;
-
   }
 
   .signup-container {
@@ -29,7 +28,6 @@ ion-content {
       font-weight: bold;
       color: #000;
       margin-top: 40px;
-
     }
 
     form {
@@ -37,7 +35,7 @@ ion-content {
       max-width: 400px;
 
       ion-item {
-        --background: #FDF5E6;
+        --background: #fdf5e6;
         --border-color: #d3d3d3;
         --border-style: solid;
         --border-width: 1px;

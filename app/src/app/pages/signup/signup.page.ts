@@ -46,7 +46,7 @@ export class SignupPage implements OnInit {
     this.authService.register(registerCredentials).subscribe({
       next: async (res) => {
         await loading.dismiss();
-        this.router.navigateByUrl('/tabs', { replaceUrl: true });
+        this.router.navigateByUrl('/home', { replaceUrl: true });
       },
       error: async (res) => {
         await loading.dismiss();
