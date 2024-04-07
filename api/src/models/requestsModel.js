@@ -18,9 +18,10 @@ async function createRequest(data) {
     if (requests_materials.length > 0 && request && request.id) {
         request.requests_materials = [];
         requests_materials.forEach(async (material) => {
+            material.request_id = request.id;
             var requests_material = await sqlHelpers.insertUpdateTable(
                 'requests_materials',
-                { ...material, request_id: request.id }
+                material
             );
             request.requests_materials.push(requests_material);
         });
