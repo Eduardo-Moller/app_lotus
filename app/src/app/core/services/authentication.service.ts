@@ -21,6 +21,7 @@ export class AuthenticationService {
 
   async loadToken() {
     const token = await Preferences.get({ key: TOKEN_KEY });
+    console.log(token.value);
     if (token && token.value) {
       localStorage.setItem('token', token.value);
       this.isAuthenticated.next(true);

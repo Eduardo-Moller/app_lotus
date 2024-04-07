@@ -3,12 +3,79 @@
   <h1>Lotos</h1>
 </ion-header>
 <ion-content>
-  <div class="container">
+  <form
+    class="container-register"
+    [formGroup]="credentials"
+    (ngSubmit)="onSubmit()"
+  >
     <div>
       <h1 class="page-title">Cadastrar Solicitaçoes</h1>
     </div>
+    <ion-item>
+      <ion-label position="floating">Emprendimento</ion-label>
+      <ion-select
+        aria-label="emprendimento"
+        placeholder="Selecione o emprendimento"
+        formControlName="enterprise_id"
+      >
+        <ion-select-option
+          *ngFor="let enterprise of enterprises"
+          value="{{enterprise.id}}"
+        >
+          {{enterprise.name}}
+        </ion-select-option>
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nível de urgência</ion-label>
+      <ion-select
+        aria-label="urgencia"
+        placeholder="Selecione o nível de urgência"
+        formControlName="urgency_level_id"
+      >
+        <ion-select-option
+          *ngFor="let urgencyLevel of urgencyLevels"
+          value="{{urgencyLevel.id}}"
+        >
+          {{urgencyLevel.name}}
+        </ion-select-option>
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Materiais</ion-label>
+      <ion-select
+        aria-label="materiais"
+        placeholder="Selecione os materiais"
+        formControlName="requests_materials"
+        [multiple]="true"
+        (ionChange)="createInputQuantity()"
+      >
+        <ion-select-option
+          *ngFor="let material of materials"
+          value="{{material.id}}"
+        >
+          {{material.name}}
+        </ion-select-option>
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item *ngFor="let quantity of quantityArray">
+      <ion-label position="floating"
+        >Quantidade de {{quantity.material}}</ion-label
+      >
+      <ion-input
+        type="number"
+        [formControlName]="'quantity_' + quantity.material_id"
+        placeholder="Quantidade"
+      ></ion-input>
+    </ion-item>
     <div class="button-item">
-      <button class="btn" (click)="navigateTo('/home')">Voltar</button>
+      <button class="btn" type="submit">Salvar</button>
+      <button class="btn" type="button" (click)="navigateTo('/home')">
+        Voltar
+      </button>
     </div>
-  </div>
+  </form>
 </ion-content>

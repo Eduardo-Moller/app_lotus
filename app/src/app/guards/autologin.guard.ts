@@ -19,7 +19,7 @@ export class AutoLoginGuard implements CanLoad {
       take(1),
       switchMap((isAuthenticated) => {
         if (isAuthenticated) {
-          this.router.navigateByUrl('/tabs', { replaceUrl: true });
+          this.router.navigateByUrl('/home', { replaceUrl: true });
           return of(false); // return Observable of false since user should not load login page
         } else {
           return of(true); // return Observable of true to allow access to the login
