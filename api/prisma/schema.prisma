@@ -112,10 +112,6 @@ model requests_materials {
   request_id        Int
   materials          materials  @relation(fields: [material_id], references: [id])
   material_id       Int
-  // urgency_level     urgency_level @relation(fields: [urgency_level_id], references: [id])
-  // urgency_level_id  Int
-  // status            status    @relation(fields: [status_id], references: [id])
-  // status_id         Int
   quantity          Int
   arrival_date      DateTime?
   updated           DateTime  @default(now())
